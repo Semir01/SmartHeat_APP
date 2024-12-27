@@ -147,14 +147,14 @@ void AutoMod(){
   if(statusAutoMod == 1){
     if(CurrentTemp < minTemp - histereza){
       digitalWrite(relay1,LOW);
-      if(Firebase.RTDB.setString(&fbData,"info/message","Heating is ON - Current temperature below minTemp")){
+      if(Firebase.RTDB.setString(&fbData,"info/message","Heating is ON - Current temperature below min Temp")){
         Serial.println("Info message sent to Firebase");
       }else{
          Serial.println("Faild to sent message to Firebase");
       }
     }else if(CurrentTemp > maxTemp + histereza){
       digitalWrite(relay1,HIGH);
-      if(Firebase.RTDB.setString(&fbData,"info/message","Heating is OFF - Current temperature above maxTemp")){
+      if(Firebase.RTDB.setString(&fbData,"info/message","Heating is OFF - Current temperature above max Temp")){
         Serial.println("Info message sent to Firebase");
       }else{
          Serial.println("Faild to sent message to Firebase");
@@ -174,9 +174,10 @@ void AutoMod(){
 
 //===================================================================//
 
-void loop() {
+void loop() { 
+  // Sending data from DHT sensor on Firebase 
+  SensorDataToFirebase();
+  
   // Auto control for relay1
   AutoMod();
-  // Sending data from DHT sensor on Firebase
-  SensorDataToFirebase();
 }
